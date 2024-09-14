@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "wakapi.fullname" . }}
+  labels:
+    {{- include "wakapi.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "wakapi.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "wakapi.name" . }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 3000
+          env:
+            {{- if .Values.secret.enabled }}
+            - name: WAKAPI_PASSWORD_SALT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: WAKAPI_PASSWORD_SALT
+            {{- end }}
+          volumeMounts:
+            {{- if .Values.volume.enabled }}
+            - name: {{ .Values.volume.name }}
+              mountPath: {{ .Values.volume.mountPath }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        {{- if .Values.volume.enabled }}
+        - name: {{ .Values.volume.name }}
+          persistentVolumeClaim:
+            claimName: {{ include "wakapi.fullname" . }}-pvc
+        {{- end }}

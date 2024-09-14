@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "wakapi.fullname" . }}-pvc
+  labels:
+    {{- include "wakapi.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.volume.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.volume.size }}
+  {{- if .Values.volume.storageClass }}
+  storageClassName: {{ .Values.volume.storageClass }}
+  {{- end }}

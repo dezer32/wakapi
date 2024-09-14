@@ -1,0 +1,23 @@
+replicaCount: 1
+
+image:
+  tag: "latest"
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 3000
+
+volume:
+  enabled: true
+  name: "wakapi-data-volume"
+  mountPath: "/data"
+  storageClass: ""  # Оставьте пустым, если не используете StorageClass
+  accessMode: ReadWriteOnce
+  size: 5Gi
+
+
+resources: { }
+nodeSelector: { }
+tolerations: [ ]
+affinity: { }
