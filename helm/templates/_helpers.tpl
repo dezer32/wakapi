@@ -42,3 +42,10 @@ Common selector labels to be used in selectors and matchLabels.
 app.kubernetes.io/name: {{ include "wakapi.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+
+{{/*
+Expand the full name of the wakatime exporter.
+*/}}
+{{- define "wakapi.exporter.fullname" -}}
+{{- printf "%s-%s" .Release.Name "exporter" | trunc 63 | trimSuffix "-" -}}
+{{- end }}

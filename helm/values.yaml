@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   tag: "latest"
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 service:
   type: ClusterIP
@@ -16,6 +16,18 @@ volume:
   accessMode: ReadWriteOnce
   size: 5Gi
 
+exporter:
+  enabled: true
+  image:
+    repository: "macropower/wakatime-exporter"
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  wakapi:
+    host: "http://wakapi:3000/api"  # Здесь указываем адрес Wakapi (внутренний DNS)
+  service:
+    type: ClusterIP
+    port: 9212
+  resources: {}
 
 resources: { }
 nodeSelector: { }

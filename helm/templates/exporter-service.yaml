@@ -1,0 +1,16 @@
+{{- if .Values.exporter.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "wakapi.fullname" . }}-wakatime-exporter
+  labels:
+    {{- include "wakapi.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.exporter.service.type }}
+  ports:
+    - port: {{ .Values.exporter.service.port }}
+      targetPort: 9212
+      protocol: TCP
+  selector:
+    app: {{ include "wakapi.name" . }}-wakatime-exporter
+{{- end }}
