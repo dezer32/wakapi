@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "wakapi.fullname" . }}-wakatime-exporter
+  name: {{ include "wakapi.fullname" . }}-exporter
   labels:
     {{- include "wakapi.labels" . | nindent 4 }}
 spec:
@@ -12,5 +12,5 @@ spec:
       targetPort: 9212
       protocol: TCP
   selector:
-    app: {{ include "wakapi.name" . }}-wakatime-exporter
+    app: {{ include "wakapi.name" . }}-exporter
 {{- end }}

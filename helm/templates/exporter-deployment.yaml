@@ -16,7 +16,7 @@ spec:
         app: {{ include "wakapi.name" . }}-exporter
     spec:
       containers:
-        - name: wakapi-exporter
+        - name: exporter
           image: "{{ .Values.exporter.image.repository }}:{{ .Values.exporter.image.tag }}"
           imagePullPolicy: {{ .Values.exporter.image.pullPolicy }}
           env:
