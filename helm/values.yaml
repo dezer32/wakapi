@@ -16,18 +16,15 @@ volume:
   accessMode: ReadWriteOnce
   size: 5Gi
 
-exporter:
+config:
   enabled: true
-  image:
-    repository: "macropower/wakatime-exporter"
-    tag: "latest"
-    pullPolicy: IfNotPresent
-  wakapi:
-    host: "http://wakapi:3000/api"  # Здесь указываем адрес Wakapi (внутренний DNS)
-  service:
-    type: ClusterIP
-    port: 9212
-  resources: {}
+  data:
+#    db_host: "postgresql.production.svc.cluster.local"         # Порт сервера Wakapi
+    db_host: "postgresql"         # Порт сервера Wakapi
+    db_port: "5432"
+    db_user: "wakapi"
+    db_name: "wakapi"
+    db_type: "postgres"
 
 resources: { }
 nodeSelector: { }

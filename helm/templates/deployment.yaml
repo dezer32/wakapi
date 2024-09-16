@@ -27,7 +27,21 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secret.name }}
                   key: WAKAPI_PASSWORD_SALT
+            - name: WAKAPI_DB_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: WAKAPI_DB_DSN
             {{- end }}
+            {{- if .Values.config.enabled }}
+            - name: WAKAPI_DB_TYPE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "wakapi.fullname" . }}-config
+                  key: db_type
+            {{- end}}
+            - name: WAKAPI_EXPOSE_METRICS
+              value: "true"
           volumeMounts:
             {{- if .Values.volume.enabled }}
             - name: {{ .Values.volume.name }}

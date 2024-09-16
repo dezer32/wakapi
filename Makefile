@@ -13,4 +13,4 @@ install:
 
 .PHONY: upgrade
 upgrade:
-	helm secrets upgrade wakapi ./helm -f ./helm/secret.enc.yaml
+	helm secrets upgrade wakapi ./helm -f ./helm/secret.enc.yaml --recreate-pods
